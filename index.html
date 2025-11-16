@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>습도 계산기</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
     <div class="container">
         <h1>습도 계산기</h1>
 
         <label>건구온도 (°C)</label>
-        <input type="number" id="dryBulb" placeholder="예: 25">
+        <input type="number" id="dryBulb" placeholder="예: 25" />
 
         <label>습구온도 (°C)</label>
-        <input type="number" id="wetBulb" placeholder="예: 20">
+        <input type="number" id="wetBulb" placeholder="예: 20" />
 
-        <button onclick="calculate()">계산하기</button>
+        <button id="calcBtn">계산하기</button>
 
         <div id="result"></div>
+
+        <p class="footer-text">
+            이 3가지 요소가 식물을 키울 때 중요한 요소입니다.
+        </p>
     </div>
 
     <script src="js/app.js"></script>

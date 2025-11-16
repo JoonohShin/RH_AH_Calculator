@@ -11,7 +11,7 @@ body {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 h1 {
@@ -37,7 +37,7 @@ button {
     width: 100%;
     padding: 12px;
     margin-top: 20px;
-    background: #007BFF;
+    background: #007bff;
     border: none;
     color: white;
     border-radius: 6px;
@@ -52,9 +52,15 @@ button:hover {
 #result {
     margin-top: 20px;
     font-size: 15px;
-    line-height: 1.4;
     background: #fafafa;
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ddd;
+}
+
+.footer-text {
+    margin-top: 25px;
+    font-size: 13px;
+    text-align: center;
+    color: #555;
 }
