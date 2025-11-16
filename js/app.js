@@ -17,30 +17,29 @@ function calculate() {
         return;
     }
 
-    const P = 1013; // hPa
-    const e_sw = saturationVaporPressure(T_w);
-    const e_s = saturationVaporPressure(T_d);
+    const P = 1013;
 
-    // 실제 수증기압
+    const es = (T) => 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+
+    const e_sw = es(T_w);
+    const e_s  = es(T_d);
+
     const e = e_sw - 0.00066 * P * (T_d - T_w);
 
-    // 절대습도 (g/m³)
     const AH = (2.16679 * e) / (T_d + 273.15);
-
-    // 상대습도 (%)
     const RH = (e / e_s) * 100;
+    const VPD = (e_s - e) / 10;
 
-    // 수분부족분(VPD) = 포화수증기압 - 실제수증기압
-    const VPD = (e_s - e) / 10; // kPa 단위로 변환
-
+    // 🔥 여기서 plant-tip이 실제 HTML로 들어감!
     resultDiv.innerHTML = `
         <b>계산 결과</b><br>
         ● 절대습도: <b>${AH.toFixed(2)} g/m³</b><br>
         ● 상대습도: <b>${RH.toFixed(1)} %</b><br>
-        ● 수분부족분(VPD): <b>${VPD.toFixed(2)} kPa</b><br>
+        ● 수분부족분(VPD): <b>${VPD.toFixed(2)} kPa</b><br><br>
+
+        <div class="plant-tip">
+            <span class="leaf">🌱</span>
+            이 3가지 요소는 <b>식물 생육에 매우 중요한 환경 지표</b>입니다.
+        </div>
     `;
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("calcBtn").addEventListener("click", calculate);
-});

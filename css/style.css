@@ -64,3 +64,19 @@ button:hover {
     text-align: center;
     color: #555;
 }
+
+.plant-tip {
+    margin-top: 18px;
+    padding: 12px;
+    background: #f0f9f3;
+    border-left: 4px solid #4CAF50;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #355e3b;
+    line-height: 1.45;
+}
+
+.leaf {
+    margin-right: 6px;
+    font-size: 15px;
+}
