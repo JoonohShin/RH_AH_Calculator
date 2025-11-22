@@ -1,41 +1,56 @@
-function saturationVaporPressure(T) {
-    return 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+// Magnus–Sonntag 포화수증기압 함수
+function es_magnus_sonntag(Tc) {
+    // Tc: 섭씨 온도
+    return 6.112 * Math.exp((17.62 * Tc) / (243.12 + Tc));
 }
 
 function calculate() {
-    const T_d = parseFloat(document.getElementById("dryBulb").value);
-    const T_w = parseFloat(document.getElementById("wetBulb").value);
+    const Td = parseFloat(document.getElementById("dryBulb").value);
+    const Tw = parseFloat(document.getElementById("wetBulb").value);
     const resultDiv = document.getElementById("result");
 
-    if (isNaN(T_d) || isNaN(T_w)) {
+    if (isNaN(Td) || isNaN(Tw)) {
         resultDiv.innerHTML = "건구온도와 습구온도를 모두 입력해주세요.";
         return;
     }
 
-    if (T_w > T_d) {
+    if (Tw > Td) {
         resultDiv.innerHTML = "습구온도는 건구온도보다 높을 수 없습니다.";
         return;
     }
 
-    const P = 1013;
+    // -----------------------------------------
+    // Python 공식 100% 동일한 계산 로직 시작
+    // -----------------------------------------
 
-    const es = (T) => 6.112 * Math.exp((17.67 * T) / (T + 243.5));
+    // 1) 포화수증기압 (hPa)
+    const e_d = es_magnus_sonntag(Td);   // 건구 기준 포화수증기압
+    const e_w = es_magnus_sonntag(Tw);   // 습구 기준 포화수증기압
 
-    const e_sw = es(T_w);
-    const e_s  = es(T_d);
+    // 2) 실제 수증기압 e (hPa)
+    const N = 0.6687451584;  // psychrometric constant 근사값
+    const e = e_w - N * (1.0 + 0.00115 * Tw) * (Td - Tw);
 
-    const e = e_sw - 0.00066 * P * (T_d - T_w);
+    // 3) 상대습도 (%)
+    const RH = (e / e_d) * 100.0;
 
-    const AH = (2.16679 * e) / (T_d + 273.15);
-    const RH = (e / e_s) * 100;
-    const VPD = (e_s - e) / 10;
+    // 4) 절대습도 (g/m^3)
+    const AH = 216.7 * e / (Td + 273.15);
 
-    // 🔥 여기서 plant-tip이 실제 HTML로 들어감!
+    // 5) 수분부족분 (hPa, kPa)
+    const VPD_hPa = e_d - e;
+    const VPD_kPa = VPD_hPa / 10.0;
+
+    // -----------------------------------------
+    // 출력 HTML
+    // -----------------------------------------
+
     resultDiv.innerHTML = `
         <b>계산 결과</b><br>
-        ● 절대습도: <b>${AH.toFixed(2)} g/m³</b><br>
-        ● 상대습도: <b>${RH.toFixed(1)} %</b><br>
-        ● 수분부족분(VPD): <b>${VPD.toFixed(2)} kPa</b><br><br>
+        ● 상대습도(RH): <b>${RH.toFixed(2)} %</b><br>
+        ● 절대습도(AH): <b>${AH.toFixed(3)} g/m³</b><br>
+        ● 수분부족분 VPD: <b>${VPD_hPa.toFixed(3)} hPa</b>
+          (<b>${VPD_kPa.toFixed(3)} kPa</b>)<br><br>
 
         <div class="plant-tip">
             <span class="leaf">🌱</span>
