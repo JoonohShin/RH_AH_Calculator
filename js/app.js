@@ -71,7 +71,8 @@ function calculate() {
 
         <div class="plant-tip">
             <span class="leaf">🌱</span>
-            이 3가지 요소는 <b>식물 생육에 매우 중요한 환경 지표</b>입니다.
+            상대습도, 절대습도, 수분부족분은<br> 
+            <b>식물 생육에 매우 중요한 환경 지표</b>입니다.
         </div>
     `;
 }
