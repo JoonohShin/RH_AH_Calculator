@@ -22,6 +22,7 @@ function calculate() {
     // 1) 포화수증기압 (건구/습구) hPa
     // ----------------------------------------------------
     const e_d = es_magnus_sonntag(Td);   // 건구 기준 포화수증기압
+    const e_d_kpa = e_d/10.0;
     const e_w = es_magnus_sonntag(Tw);   // 습구 기준 포화수증기압
 
     // ----------------------------------------------------
@@ -29,6 +30,7 @@ function calculate() {
     // ----------------------------------------------------
     const N = 0.6687451584;
     const e = e_w - N * (1.0 + 0.00115 * Tw) * (Td - Tw);
+    const e_kpa = e/10.0;
 
     // ----------------------------------------------------
     // 3) 상대습도(%)
@@ -61,13 +63,12 @@ function calculate() {
         ● 상대습도(RH): <b>${RH.toFixed(2)} %</b><br>
         ● 절대습도(AH): <b>${AH.toFixed(3)} g/m³</b><br>
 
-        ● 수분부족분 VPD: <b>${VPD_hPa.toFixed(3)} hPa</b> 
-          (<b>${VPD_kPa.toFixed(3)} kPa</b>)<br>
+        ● 수분부족분 VPD: <b>${VPD_kPa.toFixed(3)} kPa</b><br>
 
         ● 이슬점 온도(Td): <b>${T_dew.toFixed(2)} °C</b><br>
 
-        ● 실제 수증기압: <b>${e.toFixed(3)} hPa</b><br>
-        ● 포화수증기압(건구 기준): <b>${e_d.toFixed(3)} hPa</b><br><br>
+        ● 실제 수증기압: <b>${e_kpa.toFixed(3)} kPa</b><br>
+        ● 포화수증기압(건구 기준): <b>${e_d_kpa.toFixed(3)} kPa</b><br><br>
 
         <div class="plant-tip">
             <span class="leaf">🌱</span>
